@@ -1,0 +1,3 @@
+include flaskary/scheme.sql
+global-exclude *.pyc
+
