@@ -8,8 +8,3 @@ db_config = {
         "password": password,
         }
 
-tables = {
-        "authors": "authors",
-        "books": "books",
-        }
-
