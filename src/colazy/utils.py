@@ -24,6 +24,7 @@ def drop_connection(cursor):
 
 
 def exec_script():
+    """ executes a schema.sql """
     with open("schema.sql") as file:
         cur = get_cursor()
         cur.execute(file.read())

@@ -8,7 +8,7 @@ def querry_db(fn):
         wrapps a querry:
 
         -> connects to db and create a cursor,
-        -> executes a querry,
+        -> executes a querry (function to be decorated),
         -> then commits and close connection.
     """
 
