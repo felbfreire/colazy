@@ -1,37 +1,59 @@
-from colazy.wrappers import querry_db
+from colazy.wrappers import PgColazy 
 from colazy.utils import exec_script
-
-import example
 
 import pytest
 
+p = "postgres"
+
+colazy = PgColazy(
+		dbname=p,
+		user=p,
+		password=p
+	)
 
 exec_script()
 
 
+@colazy.querry_db
+def insert_name():
+	return ("insert into names (name, lastname) values ('Fred', 'Nit');")
+
+
+@colazy.querry_db
+def get_names():
+	return ("select * from names;")
+
+
+@colazy.querry_db
+def update_name():
+	return ("update names set name =  'John' where id = 1")
+
+
+@colazy.querry_db
+def delete_name():
+	return ("delete from names  where id = 1")
+
+
 class TestQuerryes():
 
-    def test_insert_name(self):
-        example.insert_name()
+	def test_insert_name(self):
+		insert_name()
+
+		names = get_names()
+
+		assert names == [(1, 'Fred', 'Nit')]
+
+	def test_update_name(self):
+		update_name()
+	
+		names = get_names()
+
+		assert names == [(1, "John", "Nit")]
 
 
-    def test_get_names(self):
-        names = example.get_names()
+	def test_delete_names(self):
+		delete_name()
 
-        assert names == [(1, "Fred", "Nit")]
+		names = get_names()
 
-
-    def test_update_names(self):
-        example.update_name()
-
-        names = example.get_names()
-
-        assert names == [(1, "John", "Nit")]
-
-
-    def test_delete_names(self):
-        example.delete_name()
-
-        names = example.get_names()
-
-        assert names == []
+		assert names == []
