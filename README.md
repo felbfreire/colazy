@@ -1,13 +1,17 @@
 Colazy is a package that contains utils for postgres database. Its main
-decorator is @querry_db, wich connect, commit and close in a single decorator. So we
+object is PgColazy, which connect, commit and close with a single method. So we
 do not need to manage connections.
+
+Fisrt we need to instatiate an PgColazy object, passing configuration data about the
+connection. Use the querry_db method as a decorator, that decorates a function which returns a querry.
 
 
 ```bash
-from colazy.wrappers import querry_db
+from colazy.wrappers import PgColazy
 
+conn = PgColazy(dbname=p, user=p, password=p)
 
-@querry_db
+@conn.querry_db
 def get_names():
 	return ("select * from names;")
 
