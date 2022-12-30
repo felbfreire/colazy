@@ -14,22 +14,22 @@ colazy = PgColazy(
 exec_script()
 
 
-@colazy.querry_db
+@colazy.query_db
 def insert_name():
 	return ("insert into names (name, lastname) values ('Fred', 'Nit');")
 
 
-@colazy.querry_db
+@colazy.query_db
 def get_names():
 	return ("select * from names;")
 
 
-@colazy.querry_db
+@colazy.query_db
 def update_name():
 	return ("update names set name =  'John' where id = 1")
 
 
-@colazy.querry_db
+@colazy.query_db
 def delete_name():
 	return ("delete from names  where id = 1")
 
