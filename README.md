@@ -9,9 +9,22 @@ connection. Use the querry_db method as a decorator, that decorates a function w
 ```bash
 from colazy.wrappers import PgColazy
 
-conn = PgColazy(dbname=p, user=p, password=p)
+p = "postgres"
 
-@conn.querry_db
+conn = PgColazy(dbname=p, user=p, password=p)
+```
+
+you can create a instance and pass nothing: PgColazy()
+and use the instance variable config:
+
+```bash
+conn.config["dbname"] = p
+conn.config["user"] = p
+conn.config["password"] = p
+```
+
+```bash
+@conn.query_db
 def get_names():
 	return ("select * from names;")
 
