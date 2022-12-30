@@ -1,9 +1,11 @@
-from .utils import get_cursor, drop_connection
+#from .utils import get_cursor, drop_connection
 
 import psycopg2
 
 
 class PgColazy:
+
+	drop = False
 
 	def __init__(self, **kwargs):
 		"""
@@ -12,26 +14,44 @@ class PgColazy:
 		"""
 
 		self.kw = kwargs
+		self.config = {}
 
-		self.dbname = self.kw["dbname"]
-		self.user = self.kw["user"]
-		self.password = self.kw["password"]
+		try:
+			self.dbname = self.kw["dbname"]
+			self.user = self.kw["user"]
+			self.password = self.kw["password"]
+		except KeyError:
+			print("PgColazy need dbname, user and password information to work")
 
 
 	def get_cursor(self):
 		"""Connects to the database then returns a cursor"""
 
-		conn = psycopg2.connect(
+		if "dbname" and "user" and "password" in self.kw:
 
-			dbname=self.dbname,
-			user=self.user,
-			password=self.password
+			conn = psycopg2.connect(
 
-		)
+				dbname=self.dbname,
+				user=self.user,
+				password=self.password
 
-		cur = conn.cursor()
+			)
 
-		return cur
+		elif "dbname" and "user" and "password" in self.config:
+
+			conn = psycopg2.connect(
+
+				dbname=self.config["dbname"],
+				user=self.config["user"],
+				password=self.config["password"]
+
+			)
+
+		try:
+			cur = conn.cursor()
+			return cur
+		except UnboundLocalError:
+			print("PgColazy could't stablish a connection.")
 
 
 	def  drop_conn(self, cur):
@@ -41,7 +61,7 @@ class PgColazy:
 		cur.connection.close()
 		
 
-	def querry_db(self, fn):
+	def query_db(self, fn):
 		""" 
 		wrapps a querry:
 
@@ -56,13 +76,14 @@ class PgColazy:
 
 			try:
 				to_exec = fn()
-			except TypeError:
-				print("Function must return a valid querry")
+			except TypeError :
+				print("Function must return a valid query.")
 
 			try:
+
 				cur.execute(to_exec)
 			except (psycopg2.Error, TypeError):
-				print("Function must return a valid querry")
+				pass
 
 			try:
 				result = cur.fetchall()
@@ -74,3 +95,4 @@ class PgColazy:
 			return result
 
 		return wrapper
+
