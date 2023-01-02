@@ -14,7 +14,7 @@ p = "postgres"
 conn = PgColazy(dbname=p, user=p, password=p)
 ```
 
-you can create an of PgColazy and pass nothing: PgColazy()
+you can also instantiate PgColazy passng nothing: PgColazy(),
 and then use the instance variable config:
 
 ```bash
