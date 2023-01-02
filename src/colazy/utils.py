@@ -19,15 +19,22 @@ def get_cursor():
 def drop_connection(cursor):
     """ commits then drops a connection """
 
-    cursor.connection.commit()
-    cursor.connection.close()
+    if isinstance(cursor, psycopg2.extensions.cursor):
+        cursor.connection.commit()
+        cursor.connection.close()
 
 
-def exec_script():
-    """ executes a schema.sql """
-    with open("schema.sql") as file:
-        cur = get_cursor()
-        cur.execute(file.read())
+def exec_script(script: str):
+    """ executes a script """
 
-        drop_connection(cur)
+    if isinstance(script, str):
+        try:
+            with open(script) as file:
+                cur = get_cursor()
+                cur.execute(file.read())
+                drop_connection(cur)
+        except FileNotFoundError:
+            print("File does not exist.")
+    else:
+        print(f"exec_script expects a string, found {type(script)}")
 
