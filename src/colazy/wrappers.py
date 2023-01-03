@@ -1,11 +1,7 @@
-#from .utils import get_cursor, drop_connection
-
 import psycopg2
 
 
 class PgColazy:
-
-	drop = False
 
 	def __init__(self, **kwargs):
 		"""
