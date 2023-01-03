@@ -7,7 +7,7 @@ connection. Use the querry_db method as a decorator, that decorates a function w
 
 
 ```bash
-from colazy.wrappers import PgColazy
+from colazy import PgColazy
 
 p = "postgres"
 
