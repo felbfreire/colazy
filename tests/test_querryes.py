@@ -1,9 +1,10 @@
-from colazy.wrappers import PgColazy 
-from colazy.utils import exec_script
+from colazy import PgColazy 
+from colazy import exec_script
 
 import pytest
 
 p = "postgres"
+script = "schema.sql"
 
 colazy = PgColazy(
 		dbname=p,
@@ -11,7 +12,7 @@ colazy = PgColazy(
 		password=p
 	)
 
-exec_script()
+exec_script(script)
 
 
 @colazy.query_db
@@ -57,3 +58,4 @@ class TestQuerryes():
 		names = get_names()
 
 		assert names == []
+
