@@ -35,7 +35,7 @@ def delete_name():
 	return ("delete from names  where id = 1")
 
 
-class TestQuerryes():
+class TestQueries():
 
 	def test_insert_name(self):
 		insert_name()
@@ -58,4 +58,21 @@ class TestQuerryes():
 		names = get_names()
 
 		assert names == []
+
+class TestErrorQuery():
+
+    def test_wrong_config_fail_to_insert_retrive(self):
+        
+        xconn = PgColazy()
+
+        xconn.config["dbname"] = 'postgres'
+        xconn.config["user"] = 'postgres'
+        xconn.config["dbname"] = 'notpostgres'
+
+        insert_name()
+
+        names = get_names()
+
+        assert names == [(2, 'Fred', 'Nit')]
+
 
